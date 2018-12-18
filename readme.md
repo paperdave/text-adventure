@@ -1,5 +1,7 @@
 # text adventure engine
 
+[Example Live Here](https://imdaveead.github.io/text-adventure/example/example.html)
+
 to get started:
 1. install nodejs and npm
 2. run `npm i -D`
