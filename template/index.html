@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <div id=root><h1>loading...</h1></div>
+
+    <script>
+        // bootloader for the development environment.
+        //
+
+        function load(url) {
+            return new Promise(res => {
+                var elem = document.createElement("script");
+                elem.src = url;
+                elem.onload = res;
+                document.body.appendChild(elem);
+            });
+        }
+
+        Promise.all([load("https://unpkg.com/react@16/umd/react.development.js"),load("https://unpkg.com/react-dom@16/umd/react-dom.development.js")])
+        .then(() => {
+            load("./adventure.js")
+        });
+    </script>
+</body>
+</html>

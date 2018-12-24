@@ -1,24 +1,38 @@
 {
-  "name": "text-adventure",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "web-text-adventure",
+  "version": "1.0.1",
+  "author": "Dave Caruso",
   "dependencies": {
+    "fs-extra": "^7.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.2.1",
     "babel-loader": "^8.0.4",
+    "css-loader": "^2.0.1",
+    "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
   },
+  "license": "MIT",
+  "main": "adventure.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --mode production"
+    "build": "babel src/adventure.jsx --out-file adventure.js"
   },
-  "author": "",
-  "license": "ISC"
+  "bin": {
+    "web-text-adventure": "./src/generator.js"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  }
 }
