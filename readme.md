@@ -4,14 +4,16 @@
 
 to get started:
 1. install nodejs and npm
-2. run `npm i -D`
-3. npm `npm start`
-4. a live development server is now running
-5. edit `src/data.jsx` to make your game.
+1. run `npx web-text-adventure`
+1. run `cd adventure`
+1. run `npm i -D`
+1. npm `npm start`
+1. a live development server is now running
+1. edit stuff
 
-you may want to use the `data.blank.jsx` as a template instead of the default one, but the default `data.jsx` has more examples and information.
+you can run `npm start` at any point to start
 
-to make production build
+To make production build
 
 1. run `npm build`
 2. modify the `index.production.html` to your liking

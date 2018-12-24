@@ -1,53 +1,44 @@
 // due to me being stupid, the package got published to npm, but the source .jsx never got pushed to github
 // that file is now lost, and all i have is this JS file from babel
-
-exports.setRootElement = setRootElement;
-exports.setCustomHTML = setCustomHTML;
-exports.addScenes = addScenes;
-exports.addFlag = addFlag;
-exports.Options = exports.Prompt = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // a simple game engine.
-var scenes = {};
-var rootElement = "#root";
-var hasStarted = false;
-var currentScene = "start";
-var previousScene = null;
+let scenes = {};
+let rootElement = "#root";
+let hasStarted = false;
+let currentScene = "start";
+let previousScene = null;
 
 function rerender() {
-  if (hasStarted) _reactDom.default.render(_react.default.createElement(Render, null), document.querySelector(rootElement));
+  if (hasStarted) ReactDOM.render(React.createElement(Render, null), document.querySelector(rootElement));
 }
 
-function error(message, isDataProblem) {
-  return [_react.default.createElement("h1", null, "Error"), _react.default.createElement("p", {
-    style: {
-      color: "red"
-    }
-  }, message)];
+function error(message) {
+  return [
+    <h1>Error</h1>,
+    <p style={{color: 'red'}}>
+      {message}
+    </p>
+  ];
 }
 
-var template = function template() {
-  return _react.default.createElement("div", null, _react.default.createElement("br", null), _react.default.createElement(Prompt, null), _react.default.createElement(Options, null));
-};
+let template = () => <div>
+  <h1>Text Adventure</h1>
+  <Prompt />
+  <Options />
+</div>
 
-function setRootElement(root) {
+export function setRootElement(root) {
   rootElement = root;
 }
 
-function setCustomHTML(jsx) {
+export function setCustomHTML(jsx) {
   template = jsx;
   rerender();
 }
 
-function addScenes(newScenes) {
+export function addScenes(newScenes) {
   Object.keys(newScenes).forEach(function (name) {
     if (newScenes[name].options) {
       newScenes[name].options.forEach(function (option) {
@@ -64,9 +55,10 @@ function addScenes(newScenes) {
   rerender();
 }
 
-function addFlag(name, initialValue) {
+export function addFlag(name, initialValue) {
   if (name in window) return;
-  var value = initialValue;
+  let value = initialValue;
+
   Object.defineProperty(window, name, {
     get: function get() {
       return value;
@@ -79,7 +71,7 @@ function addFlag(name, initialValue) {
 }
 
 function handleClick(option) {
-  var newScene = scenes[option.to];
+  let newScene = scenes[option.to];
 
   if (typeof option.action === "function") {
     option.action();
@@ -94,31 +86,25 @@ function handleClick(option) {
   rerender();
 }
 
-var Prompt = function Prompt() {
-  var prompt = scenes[currentScene].prompt;
+export let Prompt = function Prompt() {
+  let prompt = scenes[currentScene].prompt;
   if (typeof prompt === "function") prompt = prompt();
-  return _react.default.createElement("div", null, prompt);
+  return <div>{prompt}</div>;
 };
 
-exports.Prompt = Prompt;
+export let Options = function Options() {
+  return <ul>
+    {
+      scenes[currentScene].options.map(function (option) {
+        if (option.if && !option.if()) return null;
+        let text = option.text;
+        if (typeof text === "function") text = text();
 
-var Options = function Options() {
-  return _react.default.createElement("ul", null, scenes[currentScene].options.map(function (option) {
-    if (option.if && !option.if()) return null;
-    var text = option.text;
-    if (typeof text === "function") text = text();
-    return _react.default.createElement("li", {
-      key: option.uid
-    }, _react.default.createElement("a", {
-      href: "#",
-      onClick: function onClick() {
-        return handleClick(option);
-      }
-    }, text));
-  }));
+        return <li key={option.uid}><a href="#" onClick={() => handleClick(option)}>{text}</a></li>
+      })
+    }
+  </ul>
 };
-
-exports.Options = Options;
 
 function Render() {
   // validate the current screen
@@ -131,7 +117,7 @@ function Render() {
   }
 
   if (typeof scenes[currentScene].prompt !== "string" && typeof scenes[currentScene].prompt !== "function") {
-    return error("Scene '".concat(currentScene, "' has an invalid prompt type (").concat(_typeof(scenes[currentScene].prompt), ", expecting function or string)"), true);
+    return error("Scene '".concat(currentScene, "' has an invalid prompt type (").concat(typeof scenes[currentScene].prompt, ", expecting function or string)"), true);
   }
 
   if (!scenes[currentScene].options) {
@@ -142,11 +128,11 @@ function Render() {
     return error("Scene '".concat(currentScene, "' has an options value, but it is not an array."), true);
   }
 
-  for (var i = 0; i < scenes[currentScene].options.length; i++) {
-    var element = scenes[currentScene].options[i];
+  for (let i = 0; i < scenes[currentScene].options.length; i++) {
+    let element = scenes[currentScene].options[i];
 
     if (typeof element.text !== "string" && typeof element.text !== "function") {
-      return error("Scene '".concat(currentScene, "', options #").concat(i, " does not contain a prompt (").concat(_typeof(element.text), ", expecting function or string)"), true);
+      return error("Scene '".concat(currentScene, "', options #").concat(i, " does not contain a prompt (").concat(typeof element.text, ", expecting function or string)"), true);
     }
 
     if (typeof element.to !== "string") {
