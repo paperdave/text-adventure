@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Adventure</title>
+</head>
+<body>
+    <!-- Everything in the #root element will be replaced with
+    the game content, so i put a style tag to add some laoding
+    screen styles. -->
+    <div id="root">
+        <style>
+            body {
+                background:black;
+                color:white;
+                text-align: center;
+            }
+            h1 {
+                font-family: sans-serif;
+            }
+        </style>
+
+        <!-- If we have JavaScript, place a title, if not the NoScript tag
+        will show instead -->
+        <h1></h1>
+        <noscript>
+            Please enable JavaScript to play this game.
+        </noscript>
+    </div>
+
+    <!-- Loader
+    This lets the browser render the loading screen, then starts loading
+    the three JS files (in correct order) to run properly -->
+    <!-- <script>
+        d = document;
+        d.querySelector("h1").innerHTML = "Loading...";
+
+        this.onload = () => {
+            // helper function to load a script
+            var loadScript = (url, callback) => {
+                var script = d.createElement("script");
+                script.src = url;
+                script.onload = callback;
+                d.body.appendChild(script);
+            };
+            loadScript("https://unpkg.com/react@16/umd/react.production.min.js",
+                loadScript.bind(0,"https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
+                    loadScript.bind(0,"adventure.js")
+                )
+            );
+        };
+    </script> -->
+
+    <script>d=document;
+    d.querySelector("h1").innerHTML="Loading...";
+    l=(a,b)=>(s=d.createElement("script"),s.src=a,s.onload=b,d.body.appendChild(s));l=l.bind(l);
+    this.onload=()=>l(0,"https://unpkg.com/react@16/umd/react.production.min.js",l(0,"https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",l(0,"adventure.js")))();</script>
+</body>
+</html>
