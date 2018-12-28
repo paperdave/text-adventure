@@ -8,7 +8,8 @@ module.exports = {
         filename: 'adventure.js'
     },
     devServer: {
-        hot: true
+        hot: true,
+	contentBase: path.join(__dirname, 'src')
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

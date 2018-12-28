@@ -54,9 +54,6 @@
         };
     </script> -->
 
-    <script>d=document;
-    d.querySelector("h1").innerHTML="Loading...";
-    l=(a,b)=>(s=d.createElement("script"),s.src=a,s.onload=b,d.body.appendChild(s));l=l.bind(l);
-    this.onload=()=>l(0,"https://unpkg.com/react@16/umd/react.production.min.js",l(0,"https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",l(0,"adventure.js")))();</script>
+    <script>d=document;d.querySelector("h1").innerHTML="Loading...";l=(a,b)=>(s=d.createElement("script"),s.src=a,s.onload=b,d.body.appendChild(s));l=l.bind.bind(l,0);this.onload=()=>l("https://unpkg.com/react@16/umd/react.production.min.js",l("https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",l("adventure.js")))();</script>
 </body>
 </html>
