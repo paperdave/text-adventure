@@ -162,7 +162,7 @@ function Render() {
   }
 
   try {
-    return template();
+    return template(scenes[currentScene]);
   } catch (err) {
     return error(err, true);
   }
