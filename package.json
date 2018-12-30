@@ -1,6 +1,6 @@
 {
   "name": "web-text-adventure",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Dave Caruso",
   "dependencies": {
     "fs-extra": "^7.0.1"
@@ -21,7 +21,8 @@
   "license": "MIT",
   "main": "adventure.js",
   "scripts": {
-    "build": "babel src/adventure.jsx --out-file adventure.js"
+    "build": "babel src/adventure.jsx --out-file adventure.js",
+    "start": "webpack-dev-server --config ./test/webpack.config.js"
   },
   "bin": {
     "web-text-adventure": "./src/generator.js"

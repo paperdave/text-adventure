@@ -31,10 +31,14 @@
         </noscript>
     </div>
 
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="adventure.js"></script>
+
     <!-- Loader
     This lets the browser render the loading screen, then starts loading
     the three JS files (in correct order) to run properly -->
-    <!-- <script>
+    <script>
         document.querySelector("h1").innerHTML = "Loading...";
 
         this.onload = () => {
@@ -51,9 +55,6 @@
                 )
             );
         };
-    </script> -->
-
-    <!-- Manually Minified Version -->
-    <script>d=document;d.querySelector("h1").innerHTML="Loading...";l=(a,b)=>(s=d.createElement("script"),s.src=a,s.onload=b,d.body.appendChild(s));l=l.bind.bind(l,0);this.onload=()=>l("https://unpkg.com/react@16/umd/react.production.min.js",l("https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",l("adventure.js")))();</script>
+    </script>
 </body>
 </html>

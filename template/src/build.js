@@ -19,6 +19,7 @@ config.output = {
     path: dist_folder,
     filename: 'adventure.js'
 };
+config.mode = 'production';
 
 webpack(config, (err, stats) => {
     // errors

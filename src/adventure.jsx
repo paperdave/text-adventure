@@ -5,13 +5,13 @@ import ReactDOM from 'react-dom';
 
 // a simple game engine.
 let scenes = {};
-let rootElement = "#root";
+let rootElement = document.querySelector("#root");
 let hasStarted = false;
 let currentScene = "start";
 let previousScene = null;
 
 function rerender() {
-  if (hasStarted) ReactDOM.render(React.createElement(Render, null), document.querySelector(rootElement));
+  if (hasStarted) ReactDOM.render(React.createElement(Render, null), rootElement);
 }
 
 function error(message) {
