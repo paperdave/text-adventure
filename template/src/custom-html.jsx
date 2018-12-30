@@ -1,9 +1,9 @@
 import React from 'react';
-import { Prompt, Options } from 'web-text-adventure';
+import { Prompt, Options, setCustomHTML } from 'web-text-adventure';
 import './style.css';
 
-export default () => <div>
+setCustomHTML(() => <div>
     <h1>Text Adventure</h1>
     <Prompt />
     <Options />
-</div>
+</div>);

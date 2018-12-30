@@ -1,23 +1,29 @@
 import React from 'react';
-import { addFlag } from 'web-text-adventure';
+import { addFlag, addScenes } from 'web-text-adventure';
 
-addFlag("counter", 0);
+addFlag("counter", 5);
 
-export default {
+addScenes({
     start: {
+        // this can also not be a function, but since it has dynamic content,
+        // it must be a function.
         prompt: () => <div>
-            Hello World.
-            
-            {(() => {
-                if(counter > 0) {
-                    return " Counter: " + counter;
-                } else {
-                    return null;
-                }
-            })()}
+            Hello World. Count: {counter}.
         </div>,
+        
         options: [
-            { text: "Increase Count", to: "start", action: () => counter++ }
+            {
+                text: "Increase Count",
+                to: "start",
+                action: () => counter++
+            },
+            {
+                text: "Decrease Count",
+                textDisabled: true, // this can also be a string
+                to: "start",
+                action: () => counter--,
+                if: () => counter > 0
+            },
         ]
     }
-}
+});

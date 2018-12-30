@@ -1,5 +1,5 @@
 import * as Adventure from '../src/adventure.jsx';
-import './style.css';
+import './../template/src/style.css';
 
 Adventure.addScenes({
     start: {
@@ -17,7 +17,7 @@ Adventure.addScenes({
                 Tesing IFs and Disabled States
             </p>
             <p>
-                There are four test options here, #2 should not be visible and #4 should be disabled.
+                There are four test options here, #2 should not be visible and #4 and #5 should be disabled.
             </p>
         </div>,
         options: [
@@ -27,6 +27,7 @@ Adventure.addScenes({
             { text: "#2 this should not appear", to: "start", if: () => false},
             { text: "#3 this should appear", to: "start", if: () => true},
             { text: "#4 this should not appear", disabledText: "#4 this should appear disabled", to: "start", if: () => false},
+            { text: "#5 this should appear disabled", disabledText: true, to: "start", if: () => false},
         ],
     }
 });

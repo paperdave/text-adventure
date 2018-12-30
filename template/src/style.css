@@ -15,6 +15,10 @@ a:not(:hover) {
     text-decoration: none;
 }
 
-.disabled {
-    color: #333;
+.option-disabled {
+    color: #444;
+}
+
+.option-seperator {
+    height: 20px;
 }

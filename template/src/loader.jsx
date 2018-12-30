@@ -2,26 +2,23 @@
 // the game, you probably do not need to edit it.
 
 import * as Adventure from 'web-text-adventure';
-import customHTML from './custom-html.jsx';
+import './custom-html.jsx';
 
 // Scene Files
 const sceneCtx = require.context('../scenes/', true, /\.jsx$/);
 sceneCtx.keys().forEach(file => {
-    Adventure.addScenes(sceneCtx(file).default);
+    sceneCtx(file);
 });
 
 // Custom HTML
-Adventure.setCustomHTML(customHTML);
 
 // Hot Reloading
 if (module.hot) {
-    module.hot.accept("./custom-html.jsx", () => {
-        Adventure.setCustomHTML(customHTML);
-    });
+    module.hot.accept("./custom-html.jsx", () => {});
     module.hot.accept(sceneCtx.id, () => {
         const sceneCtx = require.context('../scenes/', true, /\.jsx$/);
         sceneCtx.keys().forEach(file => {
-            Adventure.addScenes(sceneCtx(file).default);
+            sceneCtx(file);
         });
     });
 }
