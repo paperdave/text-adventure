@@ -41,8 +41,12 @@ export function setCustomHTML(jsx) {
 export function addScenes(newScenes) {
   Object.keys(newScenes).forEach(function (name) {
     if (newScenes[name].options) {
-      newScenes[name].options.forEach(function (option) {
+      newScenes[name].options = newScenes[name].options.map(function (option) {
+        if(option === "seperator") {
+          return { is: "seperator", uid: Math.round(Math.random() * 999999).toString() };
+        }
         option.uid = Math.round(Math.random() * 999999).toString();
+        return option;
       });
     }
   });
@@ -96,11 +100,25 @@ export let Options = function Options() {
   return <ul>
     {
       scenes[currentScene].options.map(function (option) {
-        if (option.if && !option.if()) return null;
-        let text = option.text;
-        if (typeof text === "function") text = text();
+        if(option.is === "seperator") {
+          return <div className="option-seperator" />;
+        }
 
-        return <li key={option.uid}><a href="#" onClick={() => handleClick(option)}>{text}</a></li>
+        let disabled = option.if && !option.if();
+        if (disabled) {
+          if (!option.disabledText) return null;
+        }
+        
+        if(!disabled) {
+          let text = option.text;
+          if (!React.isValidElement(text) && typeof text === "function") text = text();
+          return <li key={option.uid}><a href="#" className="option option-enabled" onClick={() => handleClick(option)}>{text}</a></li>
+        } else {
+          let text = (option.disabledText === true) ? option.text : option.disabledText;
+          if (!React.isValidElement(text) && typeof text === "function") text = text();
+
+          return <li key={option.uid}><span className="option option-disabled">{text}</span></li>
+        }
       })
     }
   </ul>
@@ -116,7 +134,7 @@ function Render() {
     return error("Scene '".concat(currentScene, "' is missing a prompt."), true);
   }
 
-  if (typeof scenes[currentScene].prompt !== "string" && typeof scenes[currentScene].prompt !== "function") {
+  if (!React.isValidElement(scenes[currentScene].prompt) && typeof scenes[currentScene].prompt !== "string" && typeof scenes[currentScene].prompt !== "function") {
     return error("Scene '".concat(currentScene, "' has an invalid prompt type (").concat(typeof scenes[currentScene].prompt, ", expecting function or string)"), true);
   }
 
@@ -130,6 +148,9 @@ function Render() {
 
   for (let i = 0; i < scenes[currentScene].options.length; i++) {
     let element = scenes[currentScene].options[i];
+    console.log(element);
+
+    if (element.is === "seperator") continue;
 
     if (typeof element.text !== "string" && typeof element.text !== "function") {
       return error("Scene '".concat(currentScene, "', options #").concat(i, " does not contain a prompt (").concat(typeof element.text, ", expecting function or string)"), true);

@@ -1,24 +1,23 @@
 import { HTMLFactory } from "react";
 
-type Text = HTMLFactory<HTMLDivElement> | string;
+export type Text = HTMLFactory<HTMLDivElement> | (() => HTMLFactory<HTMLDivElement>) | string | (() => string);
 
-interface Scene {
+export type Scene = {
     prompt: Text;
     options: Option[];
 
-    if?: () => boolean;
     action?: () => any;
-}
+};
 
-interface Option {
+export type Option = {
     text: Text;
     to: string;
 
-    disabledText: Text;
+    disabledText: Text | true;
 
     if?: () => boolean;
     action?: () => any;
-}
+} | 'seperator';
 
 export function setRootElement(root: HTMLElement): undefined;
 export function setCustomHTML(jsx: (currentScene?: Scene) => HTMLFactory<HTMLDivElement>): undefined;
