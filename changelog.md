@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.2.0 [un released]
+## 1.3.0
+- Added Debug Panel
+    - highlights broken links
+- added `setScene(newscene, source)`.
+- added `resetFlags()`.
+
+## 1.2.0
 - Custom HTML can use the scene.
 - `.d.ts` typing information
 - option seperators

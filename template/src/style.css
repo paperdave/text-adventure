@@ -22,3 +22,7 @@ a:not(:hover) {
 .option-seperator {
     height: 20px;
 }
+
+.option-broken-link {
+    color: #A11;
+}

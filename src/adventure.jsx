@@ -2,13 +2,17 @@
 // that file is now lost, and all i have is this JS file from babel
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { If } from './util.jsx';
+import packagejson from '../package.json';
 
 // a simple game engine.
 let scenes = {};
+let flagInitialValues = {};
 let rootElement = document.querySelector("#root");
 let hasStarted = false;
 let currentScene = "start";
 let previousScene = null;
+let debugPanelOpen = false;
 
 function rerender() {
   if (hasStarted) ReactDOM.render(React.createElement(Render, null), rootElement);
@@ -19,7 +23,8 @@ function error(message) {
     <h1>Error</h1>,
     <p style={{color: 'red'}}>
       {message}
-    </p>
+    </p>,
+    <DebugPanel />
   ];
 }
 
@@ -36,6 +41,13 @@ export function setRootElement(root) {
 export function setCustomHTML(jsx) {
   template = jsx;
   rerender();
+}
+
+export function setScene(newscene, src) {
+  if (src) currentScene = src;
+  handleClick({
+    to: newscene
+  });
 }
 
 export function addScenes(newScenes) {
@@ -60,8 +72,9 @@ export function addScenes(newScenes) {
 }
 
 export function addFlag(name, initialValue) {
-  if (name in window) return;
+  if (name in window) return window[name];
   let value = initialValue;
+  flagInitialValues[name] = initialValue;
 
   Object.defineProperty(window, name, {
     get: function get() {
@@ -72,6 +85,14 @@ export function addFlag(name, initialValue) {
       rerender();
     }
   });
+
+  return value;
+}
+
+export function resetFlags() {
+  Object.keys(flagInitialValues).forEach(name => {
+    window[name] = flagInitialValues[name];
+  });
 }
 
 function handleClick(option) {
@@ -81,12 +102,13 @@ function handleClick(option) {
     option.action();
   }
 
+  previousScene = currentScene;
+  currentScene = option.to;
+
   if (newScene && typeof newScene.action === "function") {
     newScene.action();
   }
-
-  previousScene = currentScene;
-  currentScene = option.to;
+  
   rerender();
 }
 
@@ -112,7 +134,7 @@ export let Options = function Options() {
         if(!disabled) {
           let text = option.text;
           if (!React.isValidElement(text) && typeof text === "function") text = text();
-          return <li key={option.uid}><a href="#" className="option option-enabled" onClick={() => handleClick(option)}>{text}</a></li>
+          return <li key={option.uid}><a href="#" className={"option option-enabled" + (debugPanelOpen ? ((option.to in scenes) ? "" : " option-broken-link") : "")} onClick={() => handleClick(option)}>{text}</a></li>
         } else {
           let text = (option.disabledText === true) ? option.text : option.disabledText;
           if (!React.isValidElement(text) && typeof text === "function") text = text();
@@ -123,6 +145,61 @@ export let Options = function Options() {
     }
   </ul>
 };
+
+function toggleDebugPanel() {
+  debugPanelOpen = !debugPanelOpen;
+  rerender();
+}
+export let DebugPanel = function DebugPanel() {
+  if (typeof $hideDebug === "undefined" || $hideDebug) return null;
+
+  return <div style={{
+      position: "fixed",
+      left: "0",
+      bottom: "0",
+      paddingTop: "1em",
+      paddingBottom: "1em",
+      background: "#111",
+      width: "100%"
+    }}>
+    <div style={{
+      width: "500px",
+      margin: "auto"
+    }}>
+      <button onClick={toggleDebugPanel}
+        style={{
+          background: "cornflowerblue",
+          border: "none",
+          color: "black",
+          fontWeight: "bold",
+          padding: "0.5em"
+        }}
+      >Toggle Debug Panel</button>
+      <If test={debugPanelOpen}>
+        <div>
+          <h4>Debug - web-text-adventure@{packagejson.version}</h4>
+          <li>
+            <a href="#" onClick={() => setScene("start", "<Debug Panel>")}>Go To Start</a>
+          </li>
+          <li>
+            <input id="debug-scene-id" style={{ width: "100px" }} type="text" placeholder="scene id" />
+            &nbsp;&nbsp;
+            <select id="debug-scene-select" onChange={() => {
+              document.getElementById("debug-scene-id").value = document.getElementById("debug-scene-select").value;
+            }}>
+              {Object.keys(scenes).map(x => <option key={x}>{x}</option>)}
+            </select>
+            &nbsp;&nbsp;
+            <a href="#" onClick={() => setScene(document.getElementById("debug-scene-id").value, "<Debug Panel>")}>Go To Scene</a>
+          </li>
+          <li>
+            <a href="#" onClick={resetFlags}>Reset all Flags</a>
+          </li>
+        </div>
+      </If>
+    </div>
+  </div>
+}
 
 function Render() {
   // validate the current screen
@@ -148,7 +225,6 @@ function Render() {
 
   for (let i = 0; i < scenes[currentScene].options.length; i++) {
     let element = scenes[currentScene].options[i];
-    console.log(element);
 
     if (element.is === "seperator") continue;
 
@@ -159,6 +235,10 @@ function Render() {
     if (typeof element.to !== "string") {
       return error("Scene '".concat(currentScene, "', options #").concat(i, " does not contain a valid 'to' property"), true);
     }
+  }
+
+  if(typeof template !== "function") {
+    return error("Custom HTML is not passed as a function.", true);
   }
 
   try {

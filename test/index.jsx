@@ -1,5 +1,14 @@
 import * as Adventure from '../src/adventure.jsx';
+import { Options, Prompt, DebugPanel } from '../src/adventure.jsx';
 import './../template/src/style.css';
+
+Adventure.setCustomHTML(() => <div>
+    <h1>Text Adventure</h1>
+    <Prompt />  
+    <Options />
+
+    <DebugPanel />
+</div>)
 
 Adventure.addScenes({
     start: {
@@ -8,7 +17,8 @@ Adventure.addScenes({
             {
                 text: "Tesing IFs and Disabled States",
                 to: "disabled_tests"
-            }
+            },
+            { text: "broken link", to: "nowhere"}
         ]
     },
     disabled_tests: {

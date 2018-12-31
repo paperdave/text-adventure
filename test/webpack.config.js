@@ -12,7 +12,10 @@ module.exports = {
 	    contentBase: path.join(__dirname)
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            $hideDebug: JSON.stringify(false)
+        })
     ],
     module: {
         rules: [
