@@ -16,5 +16,4 @@ you can run `npm start` at any point to start
 To make production build
 
 1. run `npm build`
-2. modify the `index.production.html` to your liking
-3. your build is `adventure.js` and `index.production.html` (rename it to `index.html` or whatever)
+1. your build is inside `dist`
