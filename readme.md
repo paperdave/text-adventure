@@ -1,4 +1,5 @@
-# text adventure engine
+# Web Text Adventure
+This is a text adventure game engine built with React.
 
 [Example Live Here](https://imdaveead.github.io/text-adventure/example/example.html)
 
@@ -17,3 +18,16 @@ To make production build
 
 1. run `npm build`
 1. your build is inside `dist`
+
+## Concepts
+### Scenes
+A scene is a single screen of information, it contains one or more options. These options
+will link you to other scenes.
+
+### Flags
+Flags are essentially just global variables, but the system will keep track of their initial value
+so you can reset them with `resetFlags()`, and whenever a change is made to the flag, it reupdates the
+UI on screen.
+
+### Single Instance
+You can only run one instance of the game engine per page, as it sets global variables.
