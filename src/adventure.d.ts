@@ -4,7 +4,7 @@ import { HTMLFactory } from "react";
 export type Text = HTMLFactory<HTMLDivElement> | (() => HTMLFactory<HTMLDivElement>) | string | (() => string);
 
 /** The state of the game, show a prompt and a list of options */
-export type Scene = {
+export interface Scene {
     /** The prompt this scene shows */
     prompt: Text;
     /** The list of options you have */
@@ -12,7 +12,11 @@ export type Scene = {
 
     /** Handler for when this scene is activated, if returned it will be activated multiple times */
     action?: () => any;
-};
+}
+export interface SceneWithID extends Scene {
+    /** Unique Identifier */
+    id: string;
+}
 
 /** A single item in a list of options */
 export type Option = {
@@ -43,6 +47,13 @@ export function addFlag<T>(name: string, initialValue: T): T;
 export function resetFlags();
 /** Sets the current scene. */
 export function setScene(newscene: string, src?: string);
+
+/** Returns a object mapping all registered flags to their current value */
+export function getAllFlags(): {[id: string]: any}
+/** Get all of a scene's information from it's id */
+export function getSceneInfo(id: string): Scene;
+/** Get the current Scene's ID */
+export function getScene(): string;
 
 /** Contains the prompt of the current scene. Used with setCustomHTML */
 export const Prompt: () => HTMLFactory<HTMLDivElement>;

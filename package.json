@@ -22,7 +22,8 @@
   "main": "./src/adventure.js",
   "scripts": {
     "build": "babel src/adventure.jsx --out-file ./src/adventure.js",
-    "start": "webpack-dev-server --config ./test/webpack.config.js"
+    "start": "webpack-dev-server --config ./test/webpack.config.js",
+    "lint": "eslint ./src/*.jsx ./src/*.js ./test/*.jsx ./test/*.js ./template/*.js ./template/*.jsx --ignore-path .eslintignore"
   },
   "bin": {
     "web-text-adventure": "./src/generator.js"

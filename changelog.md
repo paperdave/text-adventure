@@ -1,10 +1,17 @@
 # Changelog
 
+## 1.4.0
+- `getAllFlags()`
+- `getScene()`
+- `getSceneInfo(id)`
+- fixed `resetFlags()` so it properly resets all flags
+- error pages now contain a "go back one" button.
+
 ## 1.3.0
 - Added Debug Panel
     - highlights broken links
 - added `setScene(newscene, source)`.
-- added `resetFlags()`.
+- added `resetFlags()`
 
 ## 1.2.0
 - Custom HTML can use the scene.
