@@ -21,6 +21,9 @@ let config = {
 export function setConfig(name, value) {
   config[name] = value;
 }
+export function getConfig(name) {
+  return config[name];
+}
 
 function rerender() {
   if (hasStarted) ReactDOM.render(React.createElement(Render, null), rootElement);

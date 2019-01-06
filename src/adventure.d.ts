@@ -42,6 +42,8 @@ interface Config {
 
 /** Sets an config value, change engine behavior */
 export function setConfig<T extends keyof Config>(name: T, value: Config[T]): undefined;
+/** Gets an config value */
+export function getConfig<T extends keyof Config>(name: T): Config[T];
 
 /** Sets the root element, defaults to `document.querySelector('#root')` */
 export function setRootElement(root: HTMLElement): undefined;

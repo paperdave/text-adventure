@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0
+- added `getConfig(name)` to retrive a config value.
+
 ## 1.5.0
 - added `setConfig(name, value)` to configure the engine's mechanics.
 - BUGFIX: Having a prompt being a string breaks it. String Prompts are now placed inside of a `div>p`
