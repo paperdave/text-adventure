@@ -8,6 +8,7 @@
     - Disable with `setConfig("collapseSeperators", false)`
 
 - `setConfig("debugPanel", boolean)` will show/hide the debug panel, regardless of the $hideDebug panel.
+- `setConfig("showBrokenLinks", boolean)` will show/hide broken option links by applying a class to the links.
 
 - `<ul>` containing options now has className `options-ul`
 - `<div>` containing prompt now has className `prompt`
