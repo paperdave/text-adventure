@@ -1,6 +1,6 @@
 {
   "name": "web-text-adventure",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "author": "Dave Caruso",
   "dependencies": {
     "fs-extra": "^7.0.1"
@@ -24,7 +24,6 @@
     "build": "babel src/adventure.jsx --out-file ./src/adventure.js",
     "start": "webpack-dev-server --config ./test/webpack.config.js",
     "lint": "eslint ./src/*.jsx ./src/*.js ./test/*.jsx ./test/*.js ./template/*.js ./template/*.jsx --ignore-path .eslintignore",
-
     "prepublishOnly": "npm run lint && npm run build"
   },
   "bin": {

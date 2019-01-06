@@ -12,6 +12,15 @@ let hasStarted = false;
 let currentScene = 'start';
 let previousScene = null;
 let debugPanelOpen = false;
+let config = {
+  collapseSeperators: true,
+  debugPanel: null,
+  showBrokenLinks: false
+};
+
+export function setConfig(name, value) {
+  config[name] = value;
+}
 
 function rerender() {
   if (hasStarted) ReactDOM.render(React.createElement(Render, null), rootElement);
@@ -150,16 +159,30 @@ function handleClick(option) {
 
 export let Prompt = function Prompt() {
   let prompt = scenes[currentScene].prompt;
-  if (typeof prompt === 'string') prompt = <div></div>;
   if (typeof prompt === 'function') prompt = prompt();
+  if (typeof prompt === 'string') prompt = <div><p>{prompt}</p></div>;
+  if (React.isValidElement(prompt)) {
+    if (prompt.type === 'div') {
+      if(prompt.props.className) {
+        prompt = React.cloneElement(prompt, { className: prompt.props.className + 'prompt' });
+      } else {
+        prompt = React.cloneElement(prompt, { className: 'prompt' });
+      }
+    } else {
+      prompt = <div className="prompt">{prompt}</div>;
+    }
+  }
   return <Fragment>{prompt}</Fragment>;
 };
 
 export let Options = function Options() {
-  return <ul>
+  return <ul className="option-ul">
     {
-      scenes[currentScene].options.map(function (option) {
+      scenes[currentScene].options.map(function (option, index) {
         if(option.is === 'seperator') {
+          const prev = scenes[currentScene].options[index - 1];
+          if(prev && prev.is === 'seperator') return null;
+
           return <div className="option-seperator" />;
         }
 
@@ -171,12 +194,25 @@ export let Options = function Options() {
         if(!disabled) {
           let text = option.text;
           if (!React.isValidElement(text) && typeof text === 'function') text = text();
-          return <li key={option.uid}><a href="#" className={'option option-enabled' + (debugPanelOpen ? ((option.to in scenes) ? '' : ' option-broken-link') : '')} onClick={() => handleClick(option)}>{text}</a></li>;
+          if(text === undefined || text === null) return null;
+
+          return <li
+            className={'option-li option-li-enabled' + ((config.showBrokenLinks || debugPanelOpen) ? ((option.to in scenes) ? '' : ' option-li-broken-link') : '')} 
+            key={option.uid}>
+            <a
+              href="#"
+              className={'option option-enabled' + ((config.showBrokenLinks || debugPanelOpen) ? ((option.to in scenes) ? '' : ' option-broken-link') : '')}
+              onClick={() => handleClick(option)}
+            >
+              {text}
+            </a>
+          </li>;
         } else {
           let text = (option.disabledText === true) ? option.text : option.disabledText;
           if (!React.isValidElement(text) && typeof text === 'function') text = text();
+          if(text === undefined || text === null) return null;
 
-          return <li key={option.uid}><span className="option option-disabled">{text}</span></li>;
+          return <li className="option-li option-li-disabled" key={option.uid}><span className="option option-disabled">{text}</span></li>;
         }
       })
     }
@@ -188,7 +224,7 @@ function toggleDebugPanel() {
   rerender();
 }
 export let DebugPanel = function DebugPanel() {
-  if (typeof $hideDebug === 'undefined' || $hideDebug) return null;
+  if ((config.debugPanel !== null) ? (!config.debugPanel) : (typeof $hideDebug === 'undefined' || $hideDebug)) return null;
 
   return <div style={{
     position: 'fixed',

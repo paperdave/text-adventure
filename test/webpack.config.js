@@ -39,5 +39,6 @@ module.exports = {
     'react-dom': 'ReactDOM',
     'react': 'React',
   },
+  devtool: 'cheap-eval-source-map',
   mode: 'development'
 };

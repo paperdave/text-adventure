@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.5.0
+- added `setConfig(name, value)` to configure the engine's mechanics.
+- BUGFIX: Having a prompt being a string breaks it. String Prompts are now placed inside of a `div>p`
+- Option's texts can be null or return null to hide.
+- Multiple seperators will collapse into one seperator.
+    - Disable with `setConfig("collapseSeperators", false)`
+
+- `setConfig("debugPanel", boolean)` will show/hide the debug panel, regardless of the $hideDebug panel.
+
+- `<ul>` containing options now has className `options-ul`
+- `<div>` containing prompt now has className `prompt`
+
 ## 1.4.0
 - `getAllFlags()`
 - `getScene()`
@@ -9,7 +21,9 @@
 
 ## 1.3.0
 - Added Debug Panel
-    - highlights broken links
+    - Highlights broken links
+    - Warps to scenes
+    - Enable by setting global `$hideDebug` to `false` (if undefined it defaults to true)
 - added `setScene(newscene, source)`.
 - added `resetFlags()`
 
@@ -19,7 +33,5 @@
 - option seperators
 - if `if` returns false, it can add a disabledText, and it will be displayed instead of being hidden
 - jsx can be used as prompts without being a function
-
-## 1.1.0
 
 ## 1.0.0

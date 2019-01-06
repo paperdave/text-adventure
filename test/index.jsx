@@ -2,6 +2,9 @@ import * as Adventure from '../src/adventure.jsx';
 import { Options, Prompt, DebugPanel } from '../src/adventure.jsx';
 import './../template/src/style.css';
 
+Adventure.setConfig('showBrokenLinks', true);
+Adventure.setConfig('debugPanel', false);
+
 window.$Adventure = Adventure;
 
 Adventure.setCustomHTML(() => <div>

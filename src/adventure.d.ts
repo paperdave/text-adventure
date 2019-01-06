@@ -26,13 +26,22 @@ export type Option = {
     to: string;
     
     /** Text to show when `if` returns false, or `true` to copy `text` */
-    disabledText: Text | true;
+    disabledText: Text | true | (() => null);
 
     /** If this returns false, the option will be hidden or the disabled text will be shown, you won't be able to click on it. */
     if?: () => boolean;
     /** When clicking, this handler will be ran */
     action?: () => any;
 } | 'seperator';
+
+interface Config {
+    collapseSeperators: boolean,
+    debugPanel: boolean | null,
+    showBrokenLinks: boolean
+}
+
+/** Sets an config value, change engine behavior */
+export function setConfig<T extends keyof Config>(name: T, value: Config[T]): undefined;
 
 /** Sets the root element, defaults to `document.querySelector('#root')` */
 export function setRootElement(root: HTMLElement): undefined;
