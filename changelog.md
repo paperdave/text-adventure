@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+- you can load up the library, and add scenes in a nodejs environment (but you cannot render).
+- `getAllScenes()` returns array of all scenes
+
 ## 1.6.0
 - added `getConfig(name)` to retrive a config value.
 

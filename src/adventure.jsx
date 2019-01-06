@@ -1,13 +1,13 @@
-// due to me being stupid, the package got published to npm, but the source .jsx never got pushed to github
-// that file is now lost, and all i have is this JS file from babel
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import packagejson from '../package.json';
 
+let $global = (typeof window !== 'undefined') ? window : ((typeof global !== 'undefined') ? global : {});
+
 // a simple game engine.
-if (!('$adventure_flags' in window)) window.$adventure_flags = {};
+if (!('$adventure_flags' in $global)) $global.$adventure_flags = {};
 let scenes = {};
-let rootElement = document.querySelector('#root');
+let rootElement = (typeof document !== 'undefined') ? document.querySelector('#root') : null;
 let hasStarted = false;
 let currentScene = 'start';
 let previousScene = null;
@@ -22,11 +22,16 @@ export function setConfig(name, value) {
   config[name] = value;
 }
 export function getConfig(name) {
+  if(name === 'debugPanel' && config[name] === null) return !$hideDebug;
   return config[name];
 }
 
+export function getAllScenes() {
+  return scenes;
+}
+
 function rerender() {
-  if (hasStarted) ReactDOM.render(React.createElement(Render, null), rootElement);
+  if (hasStarted && typeof document !== 'undefined') ReactDOM.render(React.createElement(Render, null), rootElement);
 }
 
 function deepcopy(v) {
@@ -90,7 +95,7 @@ export function getSceneInfo(id) {
 
 export function getAllFlags() {
   return Object.keys($adventure_flags).reduce((obj, id) => {
-    obj[id] = window[id];
+    obj[id] = $global[id];
     return obj;
   },{});
 }
@@ -117,12 +122,12 @@ export function addScenes(newScenes) {
 }
 
 export function addFlag(name, initialValue) {
-  if (name in window) return window[name];
+  if (name in $global) return $global[name];
   let value = initialValue;
   // deep copy the object, JSON.stringify->parse is the fastest, but does not work on Date.
   $adventure_flags[name] = deepcopy(initialValue);
   
-  Object.defineProperty(window, name, {
+  Object.defineProperty($global, name, {
     get: function get() {
       return value;
     },
@@ -139,7 +144,7 @@ export function resetFlags() {
   Object.keys($adventure_flags).forEach(name => {
     let value = $adventure_flags[name];
     // Deep copy again.
-    window[name] = deepcopy(value);
+    $global[name] = deepcopy(value);
   });
 }
 
