@@ -184,22 +184,23 @@ export let Prompt = function Prompt() {
 };
 
 export let Options = function Options() {
+  let lastRenderedOption = null;
   return <ul className="option-ul">
     {
       scenes[currentScene].options.map(function (option, index) {
         if(option.is === 'seperator') {
-          const prev = scenes[currentScene].options[index - 1];
-          if(prev && prev.is === 'seperator') return null;
+          if(lastRenderedOption === 'seperator') return null;
 
-          return <div className="option-seperator" />;
+          lastRenderedOption = 'seperator';
+          return <li className="option-seperator" />;
         }
 
         let disabled = option.if && !option.if();
         if (disabled) {
           if (!option.disabledText) return null;
         }
-        
-        if(!disabled) {
+        if (!disabled) {
+          lastRenderedOption = null;
           let text = option.text;
           if (!React.isValidElement(text) && typeof text === 'function') text = text();
           if(text === undefined || text === null) return null;

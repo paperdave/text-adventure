@@ -40,6 +40,13 @@ Adventure.addScenes({
     options: [
       { text: 'escape', to: 'start'},
       'seperator',
+      'seperator',
+      'seperator',
+      'seperator',
+      'seperator',
+      'seperator',
+      'seperator',
+      'seperator',
       { text: '#1 this should appear', to: 'start'},
       { text: '#2 this should not appear', to: 'start', if: () => false},
       { text: '#3 this should appear', to: 'start', if: () => true},

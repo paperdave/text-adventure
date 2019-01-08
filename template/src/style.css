@@ -21,6 +21,7 @@ a:not(:hover) {
 
 .option-seperator {
     height: 20px;
+    list-style-type: none;
 }
 
 .option-broken-link {
