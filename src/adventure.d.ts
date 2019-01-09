@@ -8,7 +8,7 @@ export interface Scene {
     /** The prompt this scene shows */
     prompt: Text;
     /** The list of options you have */
-    options: Option[];
+    options: Option[] | (() => Option[]);
 
     /** Handler for when this scene is activated, if returned it will be activated multiple times */
     action?: () => any;

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.0
+- the options array can now be a function that returns an array
+- to value can be `null` to have it do nothing
+
 ## 1.7.0
 - you can load up the library, and add scenes in a nodejs environment (but you cannot render).
 - `getAllScenes()` returns array of all scenes

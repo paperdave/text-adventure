@@ -6,7 +6,7 @@ let $global = (typeof window !== 'undefined') ? window : ((typeof global !== 'un
 
 // a simple game engine.
 if (!('$adventure_flags' in $global)) $global.$adventure_flags = {};
-let scenes = {};
+let scenes = {null: true};
 let rootElement = (typeof document !== 'undefined') ? document.querySelector('#root') : null;
 let hasStarted = false;
 let currentScene = 'start';
@@ -79,6 +79,7 @@ export function setCustomHTML(jsx) {
 }
 
 export function setScene(newscene, src) {
+  if(newscene === null) return;
   if (src) currentScene = src;
   handleClick({
     to: newscene
@@ -149,6 +150,7 @@ export function resetFlags() {
 }
 
 function handleClick(option) {
+  if (option.to === null) return;
   let newScene = scenes[option.to];
 
   if (typeof option.action === 'function') {
@@ -185,9 +187,12 @@ export let Prompt = function Prompt() {
 
 export let Options = function Options() {
   let lastRenderedOption = null;
+  let options = scenes[currentScene].options;
+  if (typeof options === 'function') options = options();
+
   return <ul className="option-ul">
     {
-      scenes[currentScene].options.map(function (option, index) {
+      options.map(function (option, index) {
         if(option.is === 'seperator') {
           if(lastRenderedOption === 'seperator') return null;
 
@@ -304,11 +309,15 @@ function Render() {
     return error('Scene \''.concat(currentScene, '\' is missing an options array'), true);
   }
 
+  let options = scenes[currentScene].options;
+  if (typeof options === 'function') options = options();
+
   if (!Array.isArray(scenes[currentScene].options)) {
-    return error('Scene \''.concat(currentScene, '\' has an options value, but it is not an array.'), true);
+    return error('Scene \''.concat(currentScene, '\' has an options value, but it is not an array or function.'), true);
   }
 
-  for (let i = 0; i < scenes[currentScene].options.length; i++) {
+  
+  for (let i = 0; i < options.length; i++) {
     let element = scenes[currentScene].options[i];
 
     if (element.is === 'seperator') continue;
@@ -317,7 +326,7 @@ function Render() {
       return error('Scene \''.concat(currentScene, '\', options #').concat(i, ' does not contain a prompt (').concat(typeof element.text, ', expecting function or string)'), true);
     }
 
-    if (typeof element.to !== 'string') {
+    if (typeof element.to !== 'string' && element.to !== null) {
       return error('Scene \''.concat(currentScene, '\', options #').concat(i, ' does not contain a valid \'to\' property'), true);
     }
   }
