@@ -103,7 +103,7 @@ export function getAllFlags() {
 
 export function addScenes(newScenes) {
   Object.keys(newScenes).forEach(function (name) {
-    if (newScenes[name].options) {
+    if (typeof newScenes[name].options === 'object') {
       newScenes[name].options = newScenes[name].options.map(function (option) {
         if(option === 'seperator') {
           return { is: 'seperator', uid: Math.round(Math.random() * 999999).toString() };
@@ -188,7 +188,16 @@ export let Prompt = function Prompt() {
 export let Options = function Options() {
   let lastRenderedOption = null;
   let options = scenes[currentScene].options;
-  if (typeof options === 'function') options = options();
+  if (typeof options === 'function') {
+    options = options();
+    options = options.map(function (option) {
+      if (option === 'seperator') {
+        return { is: 'seperator', uid: Math.round(Math.random() * 999999).toString() };
+      }
+      option.uid = Math.round(Math.random() * 999999).toString();
+      return option;
+    });
+  }
 
   return <ul className="option-ul">
     {
@@ -312,13 +321,12 @@ function Render() {
   let options = scenes[currentScene].options;
   if (typeof options === 'function') options = options();
 
-  if (!Array.isArray(scenes[currentScene].options)) {
+  if (!Array.isArray(options)) {
     return error('Scene \''.concat(currentScene, '\' has an options value, but it is not an array or function.'), true);
   }
-
   
   for (let i = 0; i < options.length; i++) {
-    let element = scenes[currentScene].options[i];
+    let element = options[i];
 
     if (element.is === 'seperator') continue;
 

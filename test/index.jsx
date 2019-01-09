@@ -20,7 +20,7 @@ Adventure.addFlag('thing', 2);
 Adventure.addScenes({
   start: {
     prompt: 'testing room, where do you go?',
-    options: [
+    options: () => [
       {
         text: 'Tesing IFs and Disabled States',
         to: 'disabled_tests'
