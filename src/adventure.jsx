@@ -150,12 +150,12 @@ export function resetFlags() {
 }
 
 function handleClick(option) {
-  if (option.to === null) return;
-  let newScene = scenes[option.to];
-
   if (typeof option.action === 'function') {
     option.action();
   }
+  if (option.to === null) return;
+  let newScene = scenes[option.to];
+
 
   previousScene = currentScene;
   currentScene = option.to;
