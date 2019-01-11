@@ -62,7 +62,7 @@ export function setScene(newscene: string, src?: string);
 /** Returns a object mapping all registered flags to their current value */
 export function getAllFlags(): {[id: string]: any}
 /** Gets all the scenes */
-export function getAllScenes(): Scene[];
+export function getAllScenes(): {[id: string]: Scene};
 /** Get all of a scene's information from it's id */
 export function getSceneInfo(id: string): Scene;
 /** Get the current Scene's ID */

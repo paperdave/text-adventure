@@ -156,7 +156,6 @@ function handleClick(option) {
   if (option.to === null) return;
   let newScene = scenes[option.to];
 
-
   previousScene = currentScene;
   currentScene = option.to;
 
