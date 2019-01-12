@@ -3,7 +3,7 @@ import { Options, Prompt, DebugPanel } from '../src/adventure.jsx';
 import './../template/src/style.css';
 
 Adventure.setConfig('showBrokenLinks', true);
-Adventure.setConfig('debugPanel', false);
+Adventure.setConfig('debugPanel', true);
 
 window.$Adventure = Adventure;
 

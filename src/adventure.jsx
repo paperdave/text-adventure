@@ -274,9 +274,18 @@ export let DebugPanel = function DebugPanel() {
       {
         debugPanelOpen
           ? <div>
-            <h4>Debug - web-text-adventure@{packagejson.version}</h4>
+            <h4>Debug&nbsp;&nbsp;&nbsp;<span style={{opacity: '0.5'}}>WTA {packagejson.version}</span></h4>
+            <li>
+              Scene: <span style={{ color: 'orange', fontFamily: 'monospace' }}>{currentScene}</span> from <span style={{ color: 'magenta', fontFamily: 'monospace' }}>{previousScene || '<nowhere>'}</span> 
+            </li>
             <li>
               <a href="#" onClick={() => setScene('start', '<Debug Panel>')}>Go To Start</a>
+            </li>
+            <li>
+              <a href="#" onClick={resetFlags}>Reset all Flags</a>
+            </li>
+            <li>
+              <a href="#" onClick={rerender}>Trigger a rerender</a>
             </li>
             <li>
               <input id="debug-scene-id" style={{ width: '100px' }} type="text" placeholder="scene id" />
@@ -284,13 +293,10 @@ export let DebugPanel = function DebugPanel() {
               <select id="debug-scene-select" onChange={() => {
                 document.getElementById('debug-scene-id').value = document.getElementById('debug-scene-select').value;
               }}>
-                {Object.keys(scenes).map(x => <option key={x}>{x}</option>)}
+                {Object.keys(scenes).filter(x => x !== 'null').filter(x => !scenes[x].hideFromDebugPanel).map(x => <option key={x}>{x}</option>)}
               </select>
               &nbsp;&nbsp;
               <a href="#" onClick={() => setScene(document.getElementById('debug-scene-id').value, '<Debug Panel>')}>Go To Scene</a>
-            </li>
-            <li>
-              <a href="#" onClick={resetFlags}>Reset all Flags</a>
             </li>
           </div>
           : null

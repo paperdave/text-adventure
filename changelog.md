@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.0
+- Improve the Debug Panel
+  - Displays the current and previous scene.
+  - null no longer appears in the scene warp list
+  - you can remove items from the scene warp list by adding `hideFromDebugPanel: true` to scenes
+  - You can trigger a rerender from the debug panel
 ## 1.8.0
 - the options array can now be a function that returns an array
 - to value can be `null` to have it do nothing
