@@ -156,7 +156,7 @@ export function resetFlags() {
 }
 
 function handleClick(option) {
-  if (currentScene && typeof scenes[currentScene].onDeactivate === 'function') {
+  if (currentScene && scenes[currentScene] && typeof scenes[currentScene].onDeactivate === 'function') {
     scenes[currentScene].onDeactivate();
   }
   
@@ -215,7 +215,7 @@ export let Options = function Options() {
           if(lastRenderedOption === 'seperator') return null;
 
           lastRenderedOption = 'seperator';
-          return <li className="option-seperator" />;
+          return <li className="option-seperator" key={option.uid} />;
         }
 
         let disabled = option.if && !option.if();
