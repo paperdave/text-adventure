@@ -12,6 +12,8 @@ export interface Scene {
 
     /** Handler for when this scene is activated, if returned it will be activated multiple times */
     action?: () => any;
+    /** Handler for when this scene is deactivated */
+    onDeactivate?: () => any;
 }
 export interface SceneWithID extends Scene {
     /** Unique Identifier */

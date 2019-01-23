@@ -17,6 +17,10 @@ Adventure.setCustomHTML(() => <div>
 
 Adventure.addFlag('thing', 2);
 
+const handleMouseMove = (ev) => {
+  document.getElementById('position').innerText = `(${ev.clientX},${ev.clientY})`
+}
+
 Adventure.addScenes({
   start: {
     prompt: 'testing room, where do you go?',
@@ -25,7 +29,27 @@ Adventure.addScenes({
         text: 'Tesing IFs and Disabled States',
         to: 'disabled_tests'
       },
+      {
+        text: 'Tesing Activation and Deactivation',
+        to: 'deactivation'
+      },
       { text: 'broken link', to: 'nowhere'}
+    ]
+  },
+  deactivation: {
+    prompt: <div>
+      <p>
+        Testing Room Magic: <span id="position"></span>
+      </p>
+    </div>,
+    action: () => {
+      window.addEventListener('mousemove', handleMouseMove);
+    },
+    onDeactivate: () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    },
+    options: () => [
+      { text: 'back', to: 'start'}
     ]
   },
   disabled_tests: {

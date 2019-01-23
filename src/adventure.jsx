@@ -79,7 +79,7 @@ export function setCustomHTML(jsx) {
 }
 
 export function setScene(newscene, src) {
-  if(newscene === null) return;
+  if (newscene === null) return;
   if (src) currentScene = src;
   handleClick({
     to: newscene
@@ -150,17 +150,21 @@ export function resetFlags() {
 }
 
 function handleClick(option) {
+  if (currentScene && typeof scenes[currentScene].onDeactivate === 'function') {
+    scenes[currentScene].onDeactivate();
+  }
+  
   if (typeof option.action === 'function') {
     option.action();
   }
   if (option.to === null) return;
-  let newScene = scenes[option.to];
-
+  let currenScene = scenes[option.to];
+  
   previousScene = currentScene;
   currentScene = option.to;
 
-  if (newScene && typeof newScene.action === 'function') {
-    newScene.action();
+  if (currenScene && typeof currenScene.action === 'function') {
+    currenScene.action();
   }
   
   rerender();
