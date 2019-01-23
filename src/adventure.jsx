@@ -2,6 +2,35 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import packagejson from '../package.json';
 
+function getRandomValues(buf) {
+  if (window.crypto && window.crypto.getRandomValues) {
+    return window.crypto.getRandomValues(buf);
+  }
+  if (typeof window.msCrypto === 'object' && typeof window.msCrypto.getRandomValues === 'function') {
+    return window.msCrypto.getRandomValues(buf);
+  }
+  if (nodeCrypto.randomBytes) {
+    if (!(buf instanceof Uint8Array)) {
+      throw new TypeError('expected Uint8Array');
+    }
+    if (buf.length > 65536) {
+      var e = new Error();
+      e.code = 22;
+      e.message = 'Failed to execute \'getRandomValues\' on \'Crypto\': The ' +
+        'ArrayBufferView\'s byte length (' + buf.length + ') exceeds the ' +
+        'number of bytes of entropy available via this API (65536).';
+      e.name = 'QuotaExceededError';
+      throw e;
+    }
+    var bytes = nodeCrypto.randomBytes(buf.length);
+    buf.set(bytes);
+    return buf;
+  }
+  else {
+    throw new Error('No secure random number generator available.');
+  }
+}
+
 let $global = (typeof window !== 'undefined') ? window : ((typeof global !== 'undefined') ? global : {});
 
 // a simple game engine.
@@ -20,7 +49,7 @@ let config = {
 
 function uuidv4() {
   return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    (c ^ getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   );
 }
 
