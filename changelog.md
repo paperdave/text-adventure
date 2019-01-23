@@ -3,6 +3,7 @@
 ## 1.10.0
 - Scenes can listen for a `onDeactivate` event function
     - can be used for timers, and event unbinding
+- Change the internal uid generation to full UUIDs
 ## 1.9.0
 - Improve the Debug Panel
   - Displays the current and previous scene.

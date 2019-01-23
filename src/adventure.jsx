@@ -18,6 +18,12 @@ let config = {
   showBrokenLinks: false
 };
 
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
 export function setConfig(name, value) {
   config[name] = value;
 }
@@ -106,9 +112,9 @@ export function addScenes(newScenes) {
     if (typeof newScenes[name].options === 'object') {
       newScenes[name].options = newScenes[name].options.map(function (option) {
         if(option === 'seperator') {
-          return { is: 'seperator', uid: Math.round(Math.random() * 999999).toString() };
+          return { is: 'seperator', uid: uuidv4() };
         }
-        option.uid = Math.round(Math.random() * 999999).toString();
+        option.uid = uuidv4();
         return option;
       });
     }
@@ -195,9 +201,9 @@ export let Options = function Options() {
     options = options();
     options = options.map(function (option) {
       if (option === 'seperator') {
-        return { is: 'seperator', uid: Math.round(Math.random() * 999999).toString() };
+        return { is: 'seperator', uid: uuidv4() };
       }
-      option.uid = Math.round(Math.random() * 999999).toString();
+      option.uid = uuidv4();
       return option;
     });
   }
