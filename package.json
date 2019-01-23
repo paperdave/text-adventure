@@ -1,6 +1,6 @@
 {
   "name": "web-text-adventure",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "author": "Dave Caruso",
   "dependencies": {
     "fs-extra": "^7.0.1"

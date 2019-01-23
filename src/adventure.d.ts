@@ -37,8 +37,11 @@ export type Option = {
 } | 'seperator';
 
 interface Config {
+    /** If true, two or more seperator options in a row will be rendered as a single one */
     collapseSeperators: boolean,
+    /** If true, the debug panel will be shown, if false the debug panel will be forced NOT to show */
     debugPanel: boolean | null,
+    /** If true, broken links will be given an extra class which by default renders it red */
     showBrokenLinks: boolean
 }
 
@@ -51,7 +54,7 @@ export function getConfig<T extends keyof Config>(name: T): Config[T];
 export function setRootElement(root: HTMLElement): undefined;
 /** Sets the Custom HTML Renderer, See `Prompt`, `Options`, and `DebugPanel` */
 export function setCustomHTML(jsx: (currentScene?: Scene) => HTMLFactory<HTMLDivElement>): undefined;
-/** Updates the scene list with more scenes, if a scene already exists it will be replaced */
+/** Updates the scene list with more scenes, if a scene already exists it will be replaced. When the "start" scene is added, that will trigger the game to start rendering the game. */
 export function addScenes(scenes: {[id: string]: Scene}): undefined;
 /** Adds a global variable, and sets an initial value */
 export function addFlag<T>(name: string, initialValue: T): T;
