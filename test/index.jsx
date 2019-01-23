@@ -18,8 +18,8 @@ Adventure.setCustomHTML(() => <div>
 Adventure.addFlag('thing', 2);
 
 const handleMouseMove = (ev) => {
-  document.getElementById('position').innerText = `(${ev.clientX},${ev.clientY})`
-}
+  document.getElementById('position').innerText = `(${ev.clientX},${ev.clientY})`;
+};
 
 Adventure.addScenes({
   start: {
